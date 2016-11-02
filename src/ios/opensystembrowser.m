@@ -1,8 +1,6 @@
 
 #import "opensystembrowser.h"
 #import <Cordova/CDVPluginResult.h>
-#import <Cordova/CDVUserAgentUtil.h>
-
 
 #pragma mark opensystembrowser
 
@@ -22,11 +20,10 @@
 
     NSString* url = [command argumentAtIndex:0];
 
-    self.callbackId = command.callbackId;
-
     if (url != nil) {
         NSURL* absoluteUrl = [NSURL URLWithString:url];
-        [self openInSystem:absoluteUrl];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:absoluteUrl]];
+        [[UIApplication sharedApplication] openURL:absoluteUrl];
 
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     } else {
@@ -35,12 +32,6 @@
 
     [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
-- (void)openInSystem:(NSURL*)url
-{
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-    [[UIApplication sharedApplication] openURL:url];
 }
 
 @end

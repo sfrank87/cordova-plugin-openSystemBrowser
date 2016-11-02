@@ -7,8 +7,6 @@
 @interface opensystembrowser : CDVPlugin {
 }
 
-@property (nonatomic, copy) NSString* callbackId;
-
 - (void)open:(CDVInvokedUrlCommand*)command;
 
 @end
