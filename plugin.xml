@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="cordova-plugin-opensystembrowser"
+      version="1.6.0-dev">
+
+    <name>opensystembrowser</name>
+    <description>opensystembrowser Plugin</description>
+    <keywords>cordova,opensystembrowser</keywords>
+    <repo>https://github.com/sfrank87/cordova-plugin-openSystemBrowser</repo>
+
+    <engines>
+      <engine name="cordova" version=">=3.1.0" /><!-- Needs cordova/urlutil -->
+    </engines>
+
+    <!-- android -->
+    <platform name="android">
+        <js-module src="www/opensystembrowser.js" name="opensystembrowser">
+            <clobbers target="cordova.opensystembrowser.open" />
+        </js-module>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="opensystembrowser">
+                <param name="android-package" value="de.inside.cordova.opensystembrowser.opensystembrowser"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/opensystembrowser.java" target-dir="src/de/inside/cordova/opensystembrowser" />
+
+    </platform>
+
+    <!-- ios -->
+    <!--platform name="ios">
+        <js-module src="www/opensystembrowser.js" name="opensystembrowser">
+            <clobbers target="cordova.opensystembrowser.open" />
+        </js-module>
+        <config-file target="config.xml" parent="/*">
+            <feature name="opensystembrowser">
+                <param name="ios-package" value="opensystembrowser" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/opensystembrowser.h" />
+	    <source-file src="src/ios/opensystembrowser.m" />
+
+	    <framework src="CoreGraphics.framework" />
+    </platform-->
+</plugin>
