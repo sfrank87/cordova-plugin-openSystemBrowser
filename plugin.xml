@@ -42,6 +42,6 @@
         <header-file src="src/ios/opensystembrowser.h" />
 	    <source-file src="src/ios/opensystembrowser.m" />
 
-	    <framework src="CoreGraphics.framework" />
+	    <!--framework src="CoreGraphics.framework" /-->
     </platform>
 </plugin>
