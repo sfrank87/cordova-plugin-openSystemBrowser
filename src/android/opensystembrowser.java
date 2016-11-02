@@ -73,33 +73,45 @@ public class opensystembrowser extends CordovaPlugin {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //String result = openExternal(url);
-                    String result = "";
-                    try {
-                        Intent intent = null;
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
-                        // Adding the MIME type to http: URLs causes them to not be handled by the downloader.
-                        Uri uri = Uri.parse(url);
-                        if (!"file".equals(uri.getScheme())) {
-                            //intent.setDataAndType(uri, webView.getResourceApi().getMimeType(uri));
-                            intent.setData(uri);
-                            intent.putExtra(Browser.EXTRA_APPLICATION_ID, cordova.getActivity().getPackageName());
-                            this.cordova.getActivity().startActivity(intent);
-                        }
-                    // not catching FileUriExposedException explicitly because buildtools<24 doesn't know about it
-                    } catch (java.lang.RuntimeException e) {
-                        LOG.d(LOG_TAG, "opensystembrowser: Error loading url "+url+":"+ e.toString());
-                        result = e.toString();
-                    } finally {
-                        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
-                        pluginResult.setKeepCallback(true);
-                        callbackContext.sendPluginResult(pluginResult);
-                    }
+                    String result = openExternal(url);
+
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
+                    pluginResult.setKeepCallback(true);
+                    callbackContext.sendPluginResult(pluginResult);
                 }
             });
             return true;
         }
         return false;
+    }
+
+    /**
+     * Display a new browser with the specified URL.
+     *
+     * @param url the url to load.
+     * @return "" if ok, or error message.
+     */
+    public String openExternal(String url) {
+        try {
+            Intent intent = null;
+            intent = new Intent(Intent.ACTION_VIEW);
+            // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
+            // Adding the MIME type to http: URLs causes them to not be handled by the downloader.
+            Uri uri = Uri.parse(url);
+            if (!"file".equals(uri.getScheme())) {
+                //intent.setDataAndType(uri, webView.getResourceApi().getMimeType(uri));
+                intent.setData(uri);
+                intent.putExtra(Browser.EXTRA_APPLICATION_ID, cordova.getActivity().getPackageName());
+                this.cordova.getActivity().startActivity(intent);
+                return "";
+            } else {
+                return "open file:// in system browser not allowed";
+            }
+
+        // not catching FileUriExposedException explicitly because buildtools<24 doesn't know about it
+        } catch (java.lang.RuntimeException e) {
+            LOG.d(LOG_TAG, "opensystembrowser: Error loading url "+url+":"+ e.toString());
+            return e.toString();
+        }
     }
 }
