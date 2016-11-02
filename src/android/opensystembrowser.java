@@ -54,6 +54,8 @@ import java.util.StringTokenizer;
 @SuppressLint("SetJavaScriptEnabled")
 public class opensystembrowser extends CordovaPlugin {
 
+    protected static final String LOG_TAG = "opensystembrowser";
+
     private CallbackContext callbackContext;
 
     /**
